@@ -49,7 +49,7 @@ describe('collapse directive', function() {
     scope.isCollapsed = true;
     compileFnH(scope);
     scope.$digest();
-    expect(elementH.height()).toBe(0);
+    expect(elementH.width()).toBe(0);
     assertCallbacks({ collapsed: true });
   });
 
@@ -73,7 +73,7 @@ describe('collapse directive', function() {
     scope.isCollapsed = true;
     scope.$digest();
     $animate.flush();
-    expect(elementH.height()).toBe(0);
+    expect(elementH.width()).toBe(0);
     assertCallbacks({ collapsing: true, collapsed: true });
   });
 
@@ -82,7 +82,7 @@ describe('collapse directive', function() {
     scope.isCollapsed = true;
     compileFnH(scope);
     scope.$digest();
-    expect(elementH.height()).toBe(0);
+    expect(elementH.width()).toBe(0);
     assertCallbacks({ collapsed: true });
     scope.collapsed.calls.reset();
 
@@ -134,7 +134,7 @@ describe('collapse directive', function() {
     scope.isCollapsed = true;
     scope.$digest();
     $animate.flush();
-    expect(elementH.height()).toBe(0);
+    expect(elementH.width()).toBe(0);
     assertCallbacks({ collapsing: true, collapsed: true });
   });
 
@@ -193,7 +193,7 @@ describe('collapse directive', function() {
       $animate.flush();
 
       expect(elementH.attr('aria-expanded')).toBe('true');
-      expect(elementH.width()).toBe(collapsedWidth);
+      expect(elementH.width()).toBeGreaterThan(collapsedWidth);
     });
 
     it('should not animate if it rejects', function() {
@@ -238,7 +238,7 @@ describe('collapse directive', function() {
       $animate.flush();
 
       expect(elementH.attr('aria-expanded')).toBe('false');
-      expect(elementH.width()).toBe(expandedWidth);
+      expect(elementH.width()).toBeLessThan(expandedWidth);
     });
 
     it('should not animate if it rejects', function() {

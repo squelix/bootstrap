@@ -10,6 +10,8 @@ angular.module('ui.bootstrap.collapse', [])
             collapsedExpr = $parse(attrs.collapsed),
             horizontal = false;
 
+        horizontal = !!('horizontal' in attrs);
+
         if (!scope.$eval(attrs.uibCollapse)) {
           if (horizontal) {
             element.addClass('in')
