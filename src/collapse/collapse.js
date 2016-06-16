@@ -1,16 +1,15 @@
 angular.module('ui.bootstrap.collapse', [])
 
-  .directive('uibCollapse', ['$animate', '$q', '$parse', '$injector', function ($animate, $q, $parse, $injector) {
+  .directive('uibCollapse', ['$animate', '$q', '$parse', '$injector', function($animate, $q, $parse, $injector) {
     var $animateCss = $injector.has('$animateCss') ? $injector.get('$animateCss') : null;
     return {
-      link: function (scope, element, attrs) {
+      link: function(scope, element, attrs) {
         var expandingExpr = $parse(attrs.expanding),
           expandedExpr = $parse(attrs.expanded),
           collapsingExpr = $parse(attrs.collapsing),
           collapsedExpr = $parse(attrs.collapsed),
           horizontal = false,
-          cssWidth = {},
-          cssHeight = {},
+          css = {},
           cssTo = {};
 
         init();
@@ -18,12 +17,16 @@ angular.module('ui.bootstrap.collapse', [])
         function init() {
           horizontal = !!('horizontal' in attrs);
           if (horizontal) {
-            cssWidth = {width: 'auto'};
-            cssHeight = {height: 'inherit'};
+            css = {
+              width: 'auto',
+              height: 'inherit'
+            };
             cssTo = {width: '0'};
           } else {
-            cssWidth = {width: 'inherit'};
-            cssHeight = {height: 'auto'};
+            css = {
+              width: 'inherit',
+              height: 'auto'
+            };
             cssTo = {height: '0'};
           }
           if (!scope.$eval(attrs.uibCollapse)) {
@@ -31,8 +34,7 @@ angular.module('ui.bootstrap.collapse', [])
               .addClass('collapse')
               .attr('aria-expanded', true)
               .attr('aria-hidden', false)
-              .css(cssWidth)
-              .css(cssHeight);
+              .css(css);
           }
         }
 
@@ -49,7 +51,7 @@ angular.module('ui.bootstrap.collapse', [])
           }
 
           $q.resolve(expandingExpr(scope))
-            .then(function () {
+            .then(function() {
               element.removeClass('collapse')
                 .addClass('collapsing')
                 .attr('aria-expanded', true)
@@ -72,8 +74,7 @@ angular.module('ui.bootstrap.collapse', [])
         function expandDone() {
           element.removeClass('collapsing')
             .addClass('collapse')
-            .css(cssWidth)
-            .css(cssHeight);
+            .css(css);
           expandedExpr(scope);
         }
 
@@ -83,7 +84,7 @@ angular.module('ui.bootstrap.collapse', [])
           }
 
           $q.resolve(collapsingExpr(scope))
-            .then(function () {
+            .then(function() {
               element
               // IMPORTANT: The width must be set before adding "collapsing" class.
               // Otherwise, the browser attempts to animate from width 0 (in
@@ -116,7 +117,7 @@ angular.module('ui.bootstrap.collapse', [])
           collapsedExpr(scope);
         }
 
-        scope.$watch(attrs.uibCollapse, function (shouldCollapse) {
+        scope.$watch(attrs.uibCollapse, function(shouldCollapse) {
           if (shouldCollapse) {
             collapse();
           } else {
